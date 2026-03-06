@@ -15,6 +15,7 @@ build/
 .venv/
 venv/
 env/
+.pytest_cache/
 
 # Node
 node_modules/

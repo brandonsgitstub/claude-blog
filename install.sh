@@ -93,9 +93,9 @@ main() {
     # Install Python dependencies
     if [ -f "${SCRIPT_DIR}/requirements.txt" ] && command -v pip3 &>/dev/null; then
         echo "→ Installing Python dependencies..."
-        pip3 install --quiet --break-system-packages -r "${SCRIPT_DIR}/requirements.txt" 2>/dev/null || \
         pip3 install --quiet -r "${SCRIPT_DIR}/requirements.txt" 2>/dev/null || \
         echo "  Skipped: Install manually with 'pip3 install -r requirements.txt'"
+        echo "  Tip: Use a virtual environment: python3 -m venv .venv && source .venv/bin/activate"
     fi
 
     echo ""

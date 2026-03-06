@@ -5,6 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.1] - 2026-03-06
+
+### Fixed
+- **install.sh**: Move `TEMP_DIR` declaration to global scope so the `EXIT` trap can access it after `main()` returns (fixes "unbound variable" error with `set -u` when installing via `curl | bash`) — thanks [@twdnhfr](https://github.com/twdnhfr)
+
+## [1.2.0] - 2026-02-18
+
+### Changed
+- **Readability layer upgrade** with research-backed thresholds (120+ sources):
+  - Flesch target: 45-60 → 60-70 (aligns with Yoast, GEO, WCAG, Raptive data)
+  - Paragraph hard limit: 100 → 150 words (200 = Yoast red)
+  - Ideal paragraph range: 40-55 → 40-80 words
+  - H2 heading frequency: 150-200 → 200-300 words
+  - Content Quality redistribution: Depth 8→7, Readability 6→7
+- New automated checks in `analyze_blog.py`: passive voice estimation, transition word percentage, AI trigger word detection (26 words), sentence length distribution
+- New reference sections in `google-landscape-2026.md` and `geo-optimization.md` for readability signals
+- 16 files updated across references, script, skills, agents, and docs
+
+### Added
+- YouTube demo video link in README
+- Header image and demo GIFs (`assets/`)
+
+### Removed
+- Placeholder `screenshots/` directory
+
 ## [1.1.0] - 2026-02-18
 
 ### Added

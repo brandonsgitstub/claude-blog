@@ -1,7 +1,7 @@
 # Prompt Engineering Reference - Blog Image Generation
 
 > Load on-demand when constructing complex prompts for blog images.
-> Adapted from Claude Banana's prompt engineering system for blog-specific use cases.
+> Adapted from Banana Claude's prompt engineering system for blog-specific use cases.
 > Aligned with Google's March 2026 "Ultimate Prompting Guide" for Gemini image generation.
 
 ## The 6-Component Reasoning Brief

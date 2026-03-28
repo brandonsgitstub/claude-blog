@@ -18,7 +18,7 @@ license: MIT
 compatibility: Requires Claude Code and Python 3.11+ for quality scoring
 metadata:
   author: AgriciDaniel
-  version: "1.7.0"
+  version: "1.6.5"
 user-invokable: true
 argument-hint: "[write|rewrite|analyze|brief|calendar|cannibalization|strategy|outline|seo-check|schema|repurpose|geo|image|audit|factcheck|persona|taxonomy|notebooklm|audio] [topic-or-file]"
 ---

@@ -57,7 +57,7 @@ and AI citation platforms. Preserves the author's voice while applying the
      Report as: "AI content estimate: ~X%"
 4. **Video embed check**:
    - Count existing YouTube embeds in the post
-   - If 0 embeds, flag: "No video embeds -- YouTube has strongest AI visibility correlation (0.737)"
+   - If 0 embeds, flag: "No video embeds. YouTube has the strongest AI visibility correlation (0.737)"
    - If present, check: lazy loading? aria-labels? noscript fallback? VideoObject schema?
 5. **Cannibalization check**:
    - Identify the post's primary keyword from title, H1, and first paragraph

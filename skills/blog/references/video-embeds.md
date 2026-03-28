@@ -4,13 +4,13 @@
 
 Video is the strongest signal for AI visibility. Key data points:
 
-- **0.737 correlation** with AI visibility -- the strongest single signal (Ahrefs 75K-brand study)
+- **0.737 correlation** with AI visibility, the strongest single signal (Ahrefs 75K-brand study)
 - Video citations in AI Overviews up **414%** year-over-year (BrightEdge Q1 2025)
 - How-to video citations up **651%**, visual demo citations up **592%** (BrightEdge)
 - YouTube is cited **200x more** than any other video platform by AI systems
 - Pages with embedded video have **53x higher chance** of front-page ranking (Forrester)
 
-Embedding relevant YouTube videos is not optional -- it is a top-tier ranking and
+Embedding relevant YouTube videos is not optional. It is a top-tier ranking and
 AI citation signal that every blog post should leverage when suitable videos exist.
 
 ---
@@ -56,7 +56,7 @@ AI citation signal that every blog post should leverage when suitable videos exi
 - **2-3 videos per post** (never more than 3)
 - Minimum **500 words** between video embeds
 - Never place a video immediately before or after a chart
-- Videos **complement** text -- they never replace written content
+- Videos **complement** text; they never replace written content
 
 ---
 
@@ -113,7 +113,7 @@ AI citation signal that every blog post should leverage when suitable videos exi
 
 ### Hugo
 
-Use the built-in shortcode -- do not use raw HTML embeds:
+Use the built-in shortcode (do not use raw HTML embeds):
 
 ```
 {{</* youtube VIDEO_ID */>}}

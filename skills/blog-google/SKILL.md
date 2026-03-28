@@ -19,7 +19,7 @@ metadata:
   category: blog
 ---
 
-# Blog Google -- Google API Data for Blog Performance
+# Blog Google: Google API Data for Blog Performance
 
 Direct access to Google's SEO APIs for blog performance analysis. Provides real
 Chrome user metrics, indexation status, search performance, entity analysis, YouTube

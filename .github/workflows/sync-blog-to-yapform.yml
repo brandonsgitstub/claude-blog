@@ -77,3 +77,18 @@ jobs:
 
           git push origin ${{ env.TARGET_BRANCH }}
           echo "Blog content synced to ${{ env.TARGET_REPO }}"
+
+      - name: Trigger revalidation
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          echo "Triggering ISR revalidation on yapform.app..."
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
+            "https://yapform.app/api/revalidate" \
+            -H "Authorization: Bearer ${{ secrets.REVALIDATION_SECRET }}" \
+            -H "Content-Type: application/json")
+
+          if [ "$STATUS" = "200" ]; then
+            echo "Revalidation successful -- blog posts are live"
+          else
+            echo "Revalidation returned HTTP $STATUS (blog will update within 60s via ISR)"
+          fi

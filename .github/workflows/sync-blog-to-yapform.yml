@@ -1,0 +1,79 @@
+name: Sync Blog Content to Yapform
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'content/**'
+
+  workflow_dispatch:
+    inputs:
+      target_path:
+        description: 'Target directory in Yapform repo (default: content/blog)'
+        required: false
+        default: 'content/blog'
+
+env:
+  TARGET_REPO: brandonsgitstub/Yapformapp
+  TARGET_BRANCH: main
+  # Change this to match your Yapform repo's blog content directory
+  TARGET_PATH: ${{ github.event.inputs.target_path || 'content/blog' }}
+
+jobs:
+  sync-content:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout claude-blog
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Checkout Yapform repo
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.TARGET_REPO }}
+          token: ${{ secrets.YAPFORM_REPO_TOKEN }}
+          path: yapform
+          ref: ${{ env.TARGET_BRANCH }}
+
+      - name: Sync blog content
+        run: |
+          # Create target directory if it doesn't exist
+          mkdir -p "yapform/${{ env.TARGET_PATH }}"
+
+          # Copy all markdown files from content/ to target path
+          echo "Syncing blog posts to yapform/${{ env.TARGET_PATH }}/"
+          cp content/*.md "yapform/${{ env.TARGET_PATH }}/"
+
+          # Show what was synced
+          echo "--- Synced files ---"
+          ls -la "yapform/${{ env.TARGET_PATH }}/"
+
+      - name: Check for changes
+        id: changes
+        working-directory: yapform
+        run: |
+          git diff --quiet && git diff --staged --quiet && echo "changed=false" >> $GITHUB_OUTPUT || echo "changed=true" >> $GITHUB_OUTPUT
+
+      - name: Commit and push to Yapform
+        if: steps.changes.outputs.changed == 'true'
+        working-directory: yapform
+        run: |
+          git config user.name "claude-blog-sync"
+          git config user.email "blog-sync@yapform.app"
+          git add "${{ env.TARGET_PATH }}/"
+
+          # Build commit message from changed files
+          CHANGED=$(git diff --staged --name-only | sed 's|.*/||' | head -10)
+          git commit -m "sync: update blog content from claude-blog
+
+          Updated files:
+          ${CHANGED}
+
+          Source: ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}"
+
+          git push origin ${{ env.TARGET_BRANCH }}
+          echo "Blog content synced to ${{ env.TARGET_REPO }}"

@@ -1,3 +1,14 @@
+---
+title: "How to Build a Product Recommendation Quiz for Shopify (2026)"
+slug: "product-recommendation-quiz-shopify"
+date: "2026-04-07"
+description: "Product recommendation quizzes convert at 12.8% on Shopify vs the 2-3% average. Learn how to build one in 5 steps and lift AOV by 20-38%."
+author: "Yapform"
+tags: ["quiz marketing", "shopify", "product recommendations", "ecommerce"]
+category: "Quiz Marketing"
+draft: false
+---
+
 # How to Build a Product Recommendation Quiz for Shopify (2026)
 
 > **Key Takeaways**
@@ -174,7 +185,3 @@ A product recommendation quiz turns your Shopify store from a static catalog int
 Your next step: pick your 3-5 product categories, write 5-7 questions, and build your first quiz. Try the Yapform AI quiz builder free and launch in under an hour.
 
 For more on driving repeat purchases from quiz data, see our [Guide to Zero-Party Data for E-Commerce].
-
----
-
-**Meta description:** Product recommendation quizzes convert at 12.8% on Shopify vs the 2-3% average. Learn how to build one in 5 steps and lift AOV by 20-38%.

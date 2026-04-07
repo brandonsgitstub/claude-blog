@@ -1,3 +1,14 @@
+---
+title: "How to Use Quiz Data to Segment Email Campaigns (2026)"
+slug: "quiz-data-email-segmentation"
+date: "2026-04-07"
+description: "Use quiz data to segment email campaigns. Segmented lists earn $0.19 per recipient vs $0.06 unsegmented. Step-by-step ESP integration guide."
+author: "Yapform"
+tags: ["email segmentation", "quiz data", "email marketing", "Klaviyo"]
+category: "Quiz Marketing"
+draft: false
+---
+
 # How to Use Quiz Data to Segment Email Campaigns (2026)
 
 > **Key Takeaways**
@@ -171,7 +182,3 @@ Quiz data is the most valuable segmentation asset most brands collect but never 
 Your next step: audit your current quiz-to-ESP integration and verify that every quiz answer populates a custom property in your email platform. Try the Yapform AI quiz builder free to launch a quiz with native Klaviyo and ESP integrations that map answers to subscriber attributes automatically.
 
 For the data collection strategy behind quiz segmentation, see our [Guide to Zero-Party Data Collection for DTC Brands]. For building the quiz itself, see our [Guide to Building a Product Recommendation Quiz for Shopify].
-
----
-
-**Meta description:** Use quiz data to segment email campaigns. Segmented lists earn $0.19 per recipient vs $0.06 unsegmented. Step-by-step ESP integration guide.

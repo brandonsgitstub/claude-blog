@@ -1,0 +1,144 @@
+name: Setup Blog in Yapform App
+
+on:
+  workflow_dispatch:
+
+env:
+  TARGET_REPO: brandonsgitstub/Yapformapp
+  TARGET_BRANCH: main
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout claude-blog
+        uses: actions/checkout@v4
+
+      - name: Checkout Yapform repo
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.TARGET_REPO }}
+          token: ${{ secrets.YAPFORM_REPO_TOKEN }}
+          path: yapform
+          ref: ${{ env.TARGET_BRANCH }}
+
+      - name: Detect project structure
+        id: detect
+        working-directory: yapform
+        run: |
+          if [ -d "src/app" ]; then
+            echo "app_dir=src/app" >> $GITHUB_OUTPUT
+            echo "lib_dir=src/lib" >> $GITHUB_OUTPUT
+            echo "Detected src/app structure"
+          else
+            echo "app_dir=app" >> $GITHUB_OUTPUT
+            echo "lib_dir=lib" >> $GITHUB_OUTPUT
+            echo "Detected app/ structure"
+          fi
+
+      - name: Copy integration files
+        run: |
+          APP="yapform/${{ steps.detect.outputs.app_dir }}"
+          LIB="yapform/${{ steps.detect.outputs.lib_dir }}"
+
+          # Create directories
+          mkdir -p "$LIB"
+          mkdir -p "$APP/blog/[slug]"
+          mkdir -p "$APP/api/revalidate"
+          mkdir -p "yapform/content/blog"
+
+          # Copy blog CMS client
+          cp integration/lib/blog.ts "$LIB/blog.ts"
+
+          # Copy page components
+          cp integration/app/blog/page.tsx "$APP/blog/page.tsx"
+          cp "integration/app/blog/[slug]/page.tsx" "$APP/blog/[slug]/page.tsx"
+
+          # Copy revalidation API
+          cp integration/app/api/revalidate/route.ts "$APP/api/revalidate/route.ts"
+
+          # Copy all blog content
+          cp content/*.md yapform/content/blog/
+
+          echo "--- Integration files copied ---"
+          echo "Blog client:      $LIB/blog.ts"
+          echo "Blog index:       $APP/blog/page.tsx"
+          echo "Blog post page:   $APP/blog/[slug]/page.tsx"
+          echo "Revalidation API: $APP/api/revalidate/route.ts"
+          echo "Blog content:     yapform/content/blog/"
+          ls yapform/content/blog/
+
+      - name: Add dependencies to package.json
+        working-directory: yapform
+        run: |
+          if [ ! -f package.json ]; then
+            echo "ERROR: No package.json found in Yapform repo"
+            exit 1
+          fi
+
+          echo "Adding blog dependencies to package.json..."
+          jq '.dependencies["gray-matter"] //= "^4.0.3" |
+              .dependencies["remark"] //= "^15.0.1" |
+              .dependencies["remark-html"] //= "^16.0.1"' \
+            package.json > package.json.tmp && mv package.json.tmp package.json
+
+          echo "--- Updated dependencies ---"
+          jq '.dependencies | to_entries[] | select(.key | test("gray-matter|remark")) | "\(.key): \(.value)"' package.json
+
+      - name: Add env example
+        working-directory: yapform
+        run: |
+          # Append blog env vars to .env.example (create if missing)
+          if ! grep -q "GITHUB_TOKEN" .env.example 2>/dev/null; then
+            cat >> .env.example << 'ENVEOF'
+
+          # Blog integration (GitHub-as-CMS)
+          GITHUB_TOKEN=ghp_your_token_here
+          REVALIDATION_SECRET=your_secret_here
+          ENVEOF
+            echo "Added blog env vars to .env.example"
+          else
+            echo ".env.example already has GITHUB_TOKEN -- skipping"
+          fi
+
+      - name: Commit and push to Yapform
+        working-directory: yapform
+        run: |
+          git config user.name "claude-blog-sync"
+          git config user.email "blog-sync@yapform.app"
+          git add -A
+
+          if git diff --staged --quiet; then
+            echo "No changes to commit -- blog integration may already be set up"
+            exit 0
+          fi
+
+          git commit -m "feat: add blog integration (GitHub-as-CMS)
+
+          Automated setup from claude-blog:
+          - Blog CMS client fetching posts from GitHub API with ISR
+          - Blog index and individual post pages
+          - On-demand revalidation endpoint at /api/revalidate
+          - Added gray-matter, remark, remark-html dependencies
+          - 6 blog posts synced to content/blog/
+
+          Source: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+          git push origin ${{ env.TARGET_BRANCH }}
+          echo "Blog integration pushed to ${{ env.TARGET_REPO }}"
+
+      - name: Print next steps
+        run: |
+          echo ""
+          echo "=========================================="
+          echo "  Blog integration setup complete!"
+          echo "=========================================="
+          echo ""
+          echo "One remaining step -- add these to Replit Secrets:"
+          echo ""
+          echo "  GITHUB_TOKEN = (your GitHub PAT)"
+          echo "  REVALIDATION_SECRET = (any random string)"
+          echo ""
+          echo "Then visit https://yapform.app/blog"
+          echo ""
